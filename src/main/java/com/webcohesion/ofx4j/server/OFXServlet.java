@@ -68,15 +68,7 @@ public class OFXServlet extends HttpServlet {
       catch (OFXParseException e) {
         throw new OFXRequestException("Unable to parse client request: " + e.getMessage());
       }
-      String orgFid = request.getParameter("ORGFID");
-      String org = orgFid.substring(0,orgFid.indexOf(','));
-		String fid = orgFid.substring(orgFid.indexOf(',')+1);
-	 RequestMessageSet messageSet= requestEnvelope.getMessageSets().first();
-	 SignonRequestMessageSet signonRequestMessageSet = (SignonRequestMessageSet)messageSet;
-	 FinancialInstitution fi = new FinancialInstitution();
-	 fi.setId(fid);
-	 fi.setOrganization(org);
-	 signonRequestMessageSet.getSignonRequest().setFinancialInstitution(fi);
+
       AggregateMarshaller marshaller = new AggregateMarshaller();
       OFXWriter writer = createOFXWriter(response.getOutputStream());
       marshaller.marshal(getServer().getResponse(requestEnvelope), writer);
